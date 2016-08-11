@@ -7,7 +7,7 @@
 
 XENOMAI_VERSION = v1.0
 
-XENOMAI_SITE = git@github.com:matthkowa/AUTOSAR_XENOMAI_SKIN.git
+XENOMAI_SITE = git@github.com:matthkowa/AUTOSAR_Xenomai_Skin.git
 XENOMAI_SITE_METHOD = git
 #XENOMAI_SOURCE = xenomai-$(XENOMAI_VERSION).tar.bz2
 XENOMAI_LICENSE = headers: GPLv2+ with exception, libraries: LGPLv2.1+, kernel: GPLv2+, docs: GFDLv1.2+, ipipe patch and can driver: GPLv2
