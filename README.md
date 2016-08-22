@@ -2,11 +2,17 @@
 This buildroot package add an custom Xenomai 3.0.2 to Buildroot.
 This Xenomai implements an AUTOSAR skin and add a Code Generator to build the AUTOSAR Skin with an AUTOSAR Model (.arxml)
 
-# ADD Package to Buildroot
+# INSTRUCTIONS
+DL Buildroot :
+
+Install Java (Required for AUTOSAR Skin generator)
+
+
+## ADD Package to Buildroot
 
 Replace the xenomai package into buildroot by this one.
 
-# ADD Skin to rootfs
+## ADD Skin to rootfs
 
 In Buildroot menuconfig :
 Target packages ---> Real-Time ---> Xenomai Userspace
@@ -18,5 +24,5 @@ For AUTOSAR skin library :
 Add an AUTOSAR Model path
 
 
-Add Ipipe Patch : 
+Add Ipipe Patch (Only for Cobalt Core) : 
 Kernel ---> Linux Kernel Extensions ---> Adeos/Xenomai Real-time patch
