@@ -83,10 +83,79 @@ config BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN
 
 if BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN
 
+choice
+	prompt "AUTOSAR application"
+	default BR2_PACKAGE_XENOMAI_COBALT
+	help 
+	  Selects an application to run 
+
+config BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_TASK_1
+	bool "Task 1"
+	help	
+	   Select Task test 1
+
+config BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_TASK_2
+	bool "Task 2"
+	help	
+	  Select Task test 2
+
+config BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_ALARM_1
+	bool "Alarm 1"
+	help	
+	  Select Alarm test 1
+
+config BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_ALARM_2
+	bool "Alarm 2"
+	help	
+	  Select Alarm test 2
+
+config BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_ALARM_3
+	bool "Alarm 3"
+	help	
+	  Select Alarm test 3
+
+config BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_ALARM_4
+	bool "Alarm 4"
+	help	
+	  Select Alarm test 4
+
+config BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_HOOK_1
+	bool "Hook 1"
+	help	
+	  Select Hook test 1
+
+config BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_RESOURCE_1
+	bool "Resource 1"
+	help	
+	  Select Resource test 1
+
+config BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_CUSTOM
+	bool "Custom"
+	help	
+	  Select custom application
+
+
+endchoice
+
+if BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_CUSTOM
+
 config BR2_PACKAGE_XENOMAI_AUTOSAR_MODEL_FILE
 	string "AUTOSAR Model file"
 	help
 	  This file is the AUTOSAR Model file (.arxml)
+
+config BR2_PACKAGE_XENOMAI_AUTOSAR_C_FILE
+	string "AUTOSAR C file"
+	help
+	  This file is the AUTOSAR C file of the application
+
+endif
+
+config BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_AUTORUN
+	bool "Run the application after linux boot"
+	help	
+	   Check if you want to run the AUTOSAR application after the Linux Kernel Boot
+
 
 endif
 config BR2_PACKAGE_XENOMAI_POSIX_SKIN

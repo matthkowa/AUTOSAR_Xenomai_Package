@@ -25,7 +25,7 @@ ifeq ($(BR2_PACKAGE_XENOMAI_MERCURY),y)
 XENOMAI_CONF_OPTS += --with-core=mercury
 endif
 
-XENOMAI_CONF_OPTS += --includedir=/usr/include/xenomai/ --disable-doc-install
+XENOMAI_CONF_OPTS += --includedir=/usr/include/xenomai/ --disable-doc-install --enable-debug
 
 XENOMAI_DIR_BUILD = $(BUILD_DIR)/xenomai-$(XENOMAI_VERSION)
 
@@ -33,11 +33,74 @@ XENOMAI_AUTORECONF = YES
 
 
 
+ifeq ($(BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_TASK_1),y)
+XENOMAI_MODEL_FILE = $(XENOMAI_DIR_BUILD)/test/tasks/task_1/task_1.arxml
+XENOMAI_C_FILE = $(XENOMAI_DIR_BUILD)/test/tasks/task_1/task_1.c
+endif
+
+ifeq ($(BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_TASK_2),y)
+XENOMAI_MODEL_FILE = $(XENOMAI_DIR_BUILD)/test/tasks/task_2/task_2.arxml
+XENOMAI_C_FILE = $(XENOMAI_DIR_BUILD)/test/tasks/task_2/task_2.c
+endif
+
+ifeq ($(BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_ALARM_1),y)
+XENOMAI_MODEL_FILE = $(XENOMAI_DIR_BUILD)/test/alarms/alarm_1/alarm_1.arxml
+XENOMAI_C_FILE = $(XENOMAI_DIR_BUILD)/test/alarms/alarm_1/alarm_1.c
+endif
+
+ifeq ($(BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_ALARM_2),y)
+XENOMAI_MODEL_FILE = $(XENOMAI_DIR_BUILD)/test/alarms/alarm_2/alarm_2.arxml
+XENOMAI_C_FILE = $(XENOMAI_DIR_BUILD)/test/alarms/alarm_2/alarm_2.c
+endif
+
+ifeq ($(BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_ALARM_3),y)
+XENOMAI_MODEL_FILE = $(XENOMAI_DIR_BUILD)/test/alarms/alarm_3/alarm_3.arxml
+XENOMAI_C_FILE = $(XENOMAI_DIR_BUILD)/test/alarms/alarm_3/alarm_3.c
+endif
+
+ifeq ($(BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_ALARM_4),y)
+XENOMAI_MODEL_FILE = $(XENOMAI_DIR_BUILD)/test/alarms/alarm_4/alarm_4.arxml
+XENOMAI_C_FILE = $(XENOMAI_DIR_BUILD)/test/alarms/alarm_4/alarm_4.c
+endif
+
+ifeq ($(BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_HOOK_1),y)
+XENOMAI_MODEL_FILE = $(XENOMAI_DIR_BUILD)/test/hooks/hook_1/hook_1.arxml
+XENOMAI_C_FILE = $(XENOMAI_DIR_BUILD)/test/hooks/hook_1/hook_1.c
+endif
+
+ifeq ($(BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_RESOURCE_1),y)
+XENOMAI_MODEL_FILE = $(XENOMAI_DIR_BUILD)/test/resources/hook_1/resource_1.arxml
+XENOMAI_C_FILE = $(XENOMAI_DIR_BUILD)/test/resources/resource_1/resource_1.c
+endif
+
+ifeq ($(BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_CUSTOM),y)
+XENOMAI_MODEL_FILE = $(BR2_PACKAGE_XENOMAI_AUTOSAR_MODEL_FILE)
+XENOMAI_C_FILE = $(BR2_PACKAGE_XENOMAI_AUTOSAR_C_FILE)
+endif
+
 ifeq ($(BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN),y)
 define XENOMAI_AUTOSAR_MODEL_BUILD
-	java -jar $(XENOMAI_DIR_BUILD)/AUTOSARGenerator/xeauge.jar -m $(BR2_PACKAGE_XENOMAI_AUTOSAR_MODEL_FILE) -d $(XENOMAI_DIR_BUILD)
+	java -jar $(XENOMAI_DIR_BUILD)/AUTOSARGenerator/xeauge.jar -m $(XENOMAI_MODEL_FILE) -d $(XENOMAI_DIR_BUILD)
 endef
-XENOMAI_PRE_CONFIGURE_HOOKS += XENOMAI_AUTOSAR_MODEL_BUILD
+
+XENOMAI_CONFIG = $(STAGING_DIR)/usr/bin/xeno-config
+XENOMAI_CFLAGS =  $(shell DESTDIR=$(STAGING_DIR) $(XENOMAI_CONFIG) --autosar --cflags)
+XENOMAI_LDFLAGS =  $(shell DESTDIR=$(STAGING_DIR) $(XENOMAI_CONFIG) --autosar --ldflags)
+XENOMAI_CC =  $(shell DESTDIR=$(STAGING_DIR) $(XENOMAI_CONFIG) --cc)
+define XENOMAI_AUTOSAR_C_BUILD
+	$(XENOMAI_CC) -o $(TARGET_DIR)/usr/bin/autosar $(XENOMAI_C_FILE)  $(XENOMAI_CFLAGS) $(XENOMAI_LDFLAGS)
+endef
+
+ifeq ($(BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN_AUTORUN),y)
+define XENOMAI_AUTOSAR_AUTORUN
+	cp $(TOPDIR)/package/xenomai/S99AutosarXenomai $(TARGET_DIR)/etc/init.d/
+endef
+
+XENOMAI_POST_INSTALL_TARGET_HOOKS += XENOMAI_AUTOSAR_AUTORUN
+endif
+
+XENOMAI_POST_INSTALL_TARGET_HOOKS += XENOMAI_AUTOSAR_C_BUILD
+XENOMAI_PRE_BUILD_HOOKS += XENOMAI_AUTOSAR_MODEL_BUILD
 XENOMAI_CONF_OPTS += --enable-lores-clock
 endif
 
