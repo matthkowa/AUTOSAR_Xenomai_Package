@@ -78,6 +78,7 @@ config BR2_PACKAGE_XENOMAI_ALCHEMY_SKIN
 config BR2_PACKAGE_XENOMAI_AUTOSAR_SKIN
 	bool "AUTOSAR skin library"
 	default y
+        select BR2_PACKAGE_XENOMAI_RTDM_SKIN
 	help
 	  This option allows to install the AUTOSAR Xenomai skin
 
@@ -144,10 +145,10 @@ config BR2_PACKAGE_XENOMAI_AUTOSAR_MODEL_FILE
 	help
 	  This file is the AUTOSAR Model file (.arxml)
 
-config BR2_PACKAGE_XENOMAI_AUTOSAR_C_FILE
+config BR2_PACKAGE_XENOMAI_AUTOSAR_C_DIRECTORY
 	string "AUTOSAR C file"
 	help
-	  This file is the AUTOSAR C file of the application
+	  This directory contains all  AUTOSAR C files of the application and ONLY the AUTOSAR  files of the application
 
 endif
 
