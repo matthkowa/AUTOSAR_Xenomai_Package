@@ -25,7 +25,7 @@ ifeq ($(BR2_PACKAGE_XENOMAI_MERCURY),y)
 XENOMAI_CONF_OPTS += --with-core=mercury
 endif
 
-XENOMAI_CONF_OPTS += --includedir=/usr/include/xenomai/ --disable-doc-install --enable-debug
+XENOMAI_CONF_OPTS += --includedir=/usr/include/xenomai/ --disable-doc-install 
 
 XENOMAI_DIR_BUILD = $(BUILD_DIR)/xenomai-$(XENOMAI_VERSION)
 
